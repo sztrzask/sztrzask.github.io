@@ -1,0 +1,126 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>Anima</title>
+    <link href="css/anima.min.css" rel="stylesheet" />
+</head>
+<body>
+    <header>
+        <span>Anima validation example.</span>
+        <span>Animation:</span>
+        <input type="radio" value="bubbles" name="opts" checked="checked" id="r1" onchange="change(this)"/><label for="r1"><span></span>Bubbles</label>
+        <input type="radio" value="line" name="opts" id="r2" onchange="change(this)" /><label for="r2"><span></span>Line</label>
+    </header>
+    <script src="script/anima.min.js"></script>
+    <script>
+        var animation,
+            bubbles = true,
+            allowSubmit = false;
+
+        function change( sender )
+        {
+            var password = document.querySelector( 'input[type="password"]' );
+            if ( sender.value === 'line' )
+            {
+                bubbles = false;
+              
+                if (password.className === 'error')
+                animation.currentNode.animation = function ( funcs, canvas, center, particle, index, angle, steps )
+                {
+                    particle.goalX = 10 + canvas.width / 100 * index;
+                    particle.goalY = getOffsetTop( password )+password.offsetHeight/2;
+                };
+            }
+            else
+            {
+                bubbles = true;
+                if ( password.className === 'error' )
+                animation.currentNode.animation = function ( funcs, canvas, center, particle, index, angle, steps )
+                {
+                    funcs.bottomToTop( particle )
+                };
+            }
+        }
+        function getOffsetTop(el) 
+        {
+            var top = el.offsetTop;
+            while(el.offsetParent) {
+                el = el.offsetParent;
+                top += el.offsetTop;
+            }
+            return top;
+        }
+
+        function start()
+        {
+            animation = new anima()
+                .setParticleColors( ['#352d88', '#92EC00', '#FFBE00'] )
+                .addNode( '', 0, function ( funcs, canvas, center, particle, index, angle, steps )
+                {
+                    particle.goalX = 10 + canvas.width / 100 * index;
+                    particle.goalY = canvas.height-10;
+                } )
+                .setBackgroundColor( '#fff', '#eff6e6' )
+                .play();
+            var box = animation.options.box,
+                header = document.querySelector( 'header' );
+            box.style.visibility = 'hidden';
+            box.style.marginTop = '-135px';
+            box.innerHTML = '<form class="form-in-box" onsubmit="return validate()"><input placeholder="Username" type="text"/><input type="password" placeholder="Password"/><button>Sign in</button></form>';
+       
+                header.style.visibility = 'visible';
+                header.className = 'open';
+        }
+        function validate()
+        {
+            var password = document.querySelector( 'input[type="password"]' )
+           
+           
+            if ( !password.value )
+            {
+                password.placeholder = 'Invalid password';
+                password.focus();
+                password.className = 'error';
+                animation.currentNode.animation = function ( funcs, canvas, center, particle, index, angle, steps )
+                {
+                    if ( !!bubbles )
+                    {
+                        funcs.bottomToTop( particle )
+                    }
+                    else
+                    {
+                        particle.goalX = 10 + canvas.width / 100 * index;
+                        particle.goalY = getOffsetTop( password ) + password.offsetHeight / 2;
+                    }
+                };
+                animation.setParticleColors( ['#ff0000', '#a60000', '#ff4040'] );
+                return false;
+            }
+            else
+            {
+                animation.currentNode.animation = function ( funcs, canvas, center, particle, index, angle, steps )
+                {
+                    funcs.circle( center, particle, steps, 300 );
+                };
+                animation.setParticleColors( ['#00C90D', '#008209', '#39E444'] )
+                setTimeout( function ()
+                {
+                    allowSubmit = true;
+                    document.querySelector( 'form' ).submit();
+                }, 2500 );
+             
+            }
+            if ( !! allowSubmit )
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+
+        }
+        window.addEventListener ? window.addEventListener( 'load', start, false ) : window.onload = start;
+    </script>
+</body>
+</html>

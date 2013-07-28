@@ -1,0 +1,78 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>Anima</title>
+    <link href="css/anima.min.css" rel="stylesheet" />
+</head>
+<body>
+    <script src="script/anima.min.js"></script>
+    <script>
+        function start()
+        {
+            /*Casemaker Sinkhole, under CC, set for testing.*/
+            var animation = new anima()
+                .setSoundtrack( 'http://storage-new1.newjamendo.com/tracks/154691_96.mp3' )
+                .playMusic()
+                .setParticleColors( ['#553bb2', '#eff63a', '#e14743'] )
+                .addNode( 'This is the most basic usage example of anima.js.', 4000, function ( funcs, canvas, center, particle, index, angle, steps )
+                {
+                    funcs.spiral( center, particle, index, 0.2, 15 );
+                } )
+                .then( function ( e )
+                {
+                    setTimeout( function ()
+                    {
+                        var node = e.currentNode.animation;
+                        var orig = node;
+                        e.currentNode.animation = function ( funcs, canvas, center, particle, index, angle, steps )
+                        {
+                            funcs.circle( center, particle, steps, 100 );
+                        };
+                        e.updateBox( 'It\'s highly customisable.' );
+                        setTimeout( function ()
+                        {
+                            e.updateBox( "Easy to use (well...)." );
+                            e.currentNode.animation = orig;
+                        }, 2000 );
+                    }, 3000 );
+
+                } )
+                .addNode( 'Infomercial.', 8000, function ( funcs, canvas, center, particle, index, angle, steps )
+                {
+                    funcs.circle( center, particle, steps, 250 );
+                } )
+                .addNode( 'Balls don\'t like to be touched. Try to.', 5000, function ( funcs, canvas, center, particle, index, angle, steps )
+                {
+                    funcs.bottomRightToTopLeft( particle );
+                } )
+                .then( function ( e )
+                {
+                    setTimeout( function ()
+                    {
+                        var node = e.currentNode.animation;
+                        var orig = node;
+                        e.currentNode.animation = function ( funcs, canvas, center, particle, index, angle, steps )
+                        {
+                            funcs.straightLine(canvas, particle, index);
+                        };
+                    }, 5000 );
+                } )
+                .addNode( 'It\'s a very early version.', 6000, function ( funcs, canvas, center, particle, index, angle, steps )
+                {
+                    funcs.vaginaCurve( center, particle, steps, 290 );
+                } )
+                .addNode( 'Tested only on Chrome and iPad with Retina display', 4000, function ( funcs, canvas, center, particle, index, angle, steps )
+                {
+                    funcs.bottomToTop( particle );
+                } )
+                .addNode( 'Because Web ❤ Chrome. The end.', 0, function ( funcs, canvas, center, particle, index, angle, steps )
+                {
+                    funcs.heartCurve( center, particle, index );
+                } )
+                .setBackgroundColor( '#fff', '#eff6e6' )
+                .play();
+        }
+        window.addEventListener ? window.addEventListener( 'load', start, false ) : window.onload = start;
+    </script>
+</body>
+</html>

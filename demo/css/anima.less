@@ -1,0 +1,211 @@
+﻿body
+{
+    margin: 0px;
+    overflow: hidden;
+}
+
+*,
+*:after,
+*:before
+{
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    cursor: default;
+}
+
+canvas
+{
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: -1;
+    position: absolute;
+}
+
+.box
+{
+    background-color: rgba(0, 0, 0, 0.2);
+    width: 100%;
+    height: 80px;
+    position: absolute;
+    top: 50%;
+    margin-top: -40px;
+
+    p
+    {
+        font-family: Comic Sans;
+        font-size: 2em;
+        text-align: center;
+        margin: 0.7em;
+        color: #FFFFFF;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        -webkit-user-select: none;
+        user-select: none;
+    }
+
+    .form-in-box
+    {
+        position: relative;
+        z-index: 1;
+        visibility: visible;
+        margin: 0 auto;
+        background-color: #352d88;
+        -webkit-box-shadow: 7px 7px 5px rgba(53,45,136, 0.75);
+        box-shadow: 7px 7px 5px rgba(53,45,136, 0.75);
+        width: 20em;
+        border-radius: 4px;
+        padding: 15px;
+
+        input[type="text"],
+        input[type="password"]
+        {
+            display: block;
+            width: 90%;
+            font-size: 110%;
+            margin: 5px auto;
+            padding: 15px;
+            .transitable;
+            outline: none;
+            border: 5px solid white;
+            -webkit-box-shadow: inset 0 0 8px rgba(0,0,0,0.1), 0 0 16px rgba(53,45,136, 0.1);
+            -moz-box-shadow: inset 0 0 8px rgba(0,0,0,0.1), 0 0 16px rgba(53,45,136, 0.1);
+            box-shadow: inset 0 0 8px rgba(0,0,0,0.1), 0 0 16px rgba(53,45,136, 0.1);
+
+            &:active,
+            &:focus
+            {
+                width: 20em;
+                outline: none;
+                -webkit-box-shadow: 7px 7px 5px rgba(53,45,136, 0.75);
+                box-shadow: 7px 7px 5px rgba(53,45,136, 0.75);
+            }
+        }
+    }
+    /*Button animation based on Codrops.*/
+    button
+    {
+        background-color: #352d88;
+        width: 80%;
+        font-family: inherit;
+        font-size: inherit;
+        background: none;
+        cursor: pointer;
+        padding: 25px;
+        display: block;
+        margin: 15px auto;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        font-weight: 700;
+        outline: none;
+        position: relative;
+        border: 3px solid #fff;
+        color: #fff;
+        overflow: hidden;
+        .transitable(all, 0.3s);
+
+        &:after
+        {
+            content: '';
+            position: absolute;
+            z-index: -1;
+            .transitable(all, 0.3s);
+            width: 100%;
+            height: 0;
+            top: 50%;
+            left: 50%;
+            background: #fff;
+            opacity: 0;
+            -webkit-transform: translateX(-50%) translateY(-50%) rotate(45deg);
+            -moz-transform: translateX(-50%) translateY(-50%) rotate(45deg);
+            -ms-transform: translateX(-50%) translateY(-50%) rotate(45deg);
+            -o-transform: translateX(-50%) translateY(-50%) rotate(45deg);
+            transform: translateX(-50%) translateY(-50%) rotate(45deg);
+        }
+
+        &:hover,
+        &:active
+        {
+            color: #0e83cd;
+        }
+
+            &:hover:after
+            {
+                height: 160%;
+                opacity: 1;
+            }
+
+            &:active:after
+            {
+                height: 400%;
+                opacity: 1;
+            }
+    }
+}
+
+.transitable(@property: all, @time: 0.4s, @animation: ease-in-out)
+{
+    -moz-transition: @property @time @animation;
+    -o-transition: @property @time @animation;
+    -webkit-transition: @property @time @animation;
+    transition: @property @time @animation;
+}
+header
+{
+    visibility: hidden;
+    position: absolute;
+    right: 10px;
+    top: -200px;
+    background-color: rgba(0,0,0,0.4);
+    padding: 20px 10px 10px 10px;
+    border-bottom-left-radius: 4px;
+    border-bottom-right-radius: 4px;
+    text-transform: uppercase;
+    color: white;
+
+    span
+    {
+        display: block;
+        text-align: center;
+        padding-bottom: 10px;
+    }
+
+    label
+    {
+        display: block;
+    }
+
+    .transitable;
+
+    &.open
+    {
+        top: 0px;
+    }
+
+    input[type="radio"]
+    {
+         display:none; 
+    }
+
+        input[type="radio"] + label
+        {
+            color: white;
+        }
+
+            input[type="radio"] + label span
+            {
+                display: inline-block;
+                width: 19px;
+                height: 19px;
+                margin: -1px 4px 0 0;
+                vertical-align: middle;
+                background: url(http://d3pr5r64n04s3o.cloudfront.net/tuts/391_checkboxes/check_radio_sheet.png) -38px top no-repeat;
+            }
+
+        input[type="radio"]:checked + label span
+        {
+            background: url(http://d3pr5r64n04s3o.cloudfront.net/tuts/391_checkboxes/check_radio_sheet.png) -57px top no-repeat;
+        }
+}
